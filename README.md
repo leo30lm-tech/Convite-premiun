@@ -1,73 +1,49 @@
-# Justech Convites Premium
+# XV Anos — Site do Evento (Convite Digital Premium)
 
-Sistema reutilizável de convite digital, feito em HTML5 + CSS3 + JavaScript puro (sem frameworks), pronto para GitHub Pages.
-
-## Novidades desta versão
-
-- **Botões com cara de botão**: os hotspots de "Local da festa" e "Confirmar presença" agora têm brilho pulsante, reagem ao toque/hover e soltam uma ondulação dourada (ripple) ao clicar.
-- **Convite com movimento**: leve respiração de zoom, parallax 3D que reage ao mouse (desktop) ou à inclinação do celular (giroscópio), e uma faixa de luz que atravessa a cena periodicamente.
-- **Personagem animada**: um recorte da personagem (`assets/personagem.png`) fica sobreposto exatamente sobre a arte original e ganha um balanço contínuo sutil (respiração + leve oscilação), dando sensação de vida sem nunca se desalinhar.
-- **Carta mais glamourosa**: carta maior (preenche muito mais a tela ao subir do envelope), com selo de cera animado, cantos ornamentais dourados e um brilho de folha de ouro percorrendo a moldura.
+Versão avançada do convite: em vez de uma imagem única, o convidado navega por
+um **site de evento em 3 etapas** (estilo Stories/Wizard), com transições em
+slide + fade, contador regressivo em tempo real, atalhos para mapa e Google
+Agenda, confirmação de presença via WhatsApp e chave PIX copiável.
 
 ## Estrutura
 
 ```
-index.html   → estrutura das duas telas (splash + convite)
-style.css    → identidade visual, animações, responsividade
-script.js    → painel CONFIG + toda a lógica (hotspots, personagem, parallax, música, transições)
-assets/
-  convite.jpg    → imagem única do convite (troque por evento)
-  personagem.png → recorte recortado da personagem, com fundo transparente (para animação)
-  music.mp3      → música ambiente (troque por evento)
+index.html   → estrutura das 3 etapas + splash do envelope
+style.css    → identidade visual (verde-oliva + dourado), animações e wizard
+script.js    → toda a configuração do evento + lógica (edite só aqui)
+assets/      → imagens e música (mesmos arquivos do convite anterior)
 ```
 
-## Como reaproveitar para um novo evento
+## Como editar para um novo evento
 
-Você só precisa mexer em **duas coisas**:
+Abra **`script.js`** e edite apenas o objeto `config` no topo do arquivo:
 
-### 1. Trocar os arquivos de mídia
-Substitua `assets/convite.jpg` e `assets/music.mp3` pelos novos arquivos, mantendo os mesmos nomes (ou ajuste os caminhos no passo 2).
+- `music`, `mapsLink`, `whatsappNumber`, `whatsappMessage`
+- `pix.key`, `pix.keyType`, `pix.ownerName`
+- `event.nome`, `tituloAniversario`, `subtitulo`, `diaSemana`, `dia`, `mes`,
+  `ano`, `hora` → textos que aparecem **sobre a arte** da Etapa 1
+- `event.dataISO` → data/hora reais do evento (usadas no contador regressivo
+  e no botão "Salvar no Google Agenda"). Formato: `AAAA-MM-DDTHH:MM:SS-03:00`
+- `event.dataLabel`, `horaLabel`, `local`, `endereco`, `traje` → aparecem na
+  Etapa 2 (detalhes)
 
-### 2. Editar o painel CONFIG no topo de `script.js`
+Sempre que substituir algum arquivo em `/assets`, mude `CACHE_VERSION` (ex.:
+para a data de hoje) para forçar o celular a baixar a versão nova.
 
-```js
-const config = {
-  backgroundImage: "assets/convite.jpg",
-  music: "assets/music.mp3",
-  mapsLink: "https://maps.google.com/?q=Local+da+Festa",
-  whatsappNumber: "55DDDNUMERO",
-  whatsappMessage: "Olá! Confirmo minha presença...",
-  hotspots: {
-    localizacao: { x: 8,  y: 78, width: 38, height: 12, action: "maps" },
-    confirmacao: { x: 54, y: 78, width: 38, height: 12, action: "whatsapp" },
-  },
-};
-```
+## As 3 etapas
 
-- `x`, `y`, `width`, `height` são **porcentagens da imagem** (0–100), não pixels — assim funcionam em qualquer tela.
-- Para descobrir as coordenadas certas de uma nova arte: abra a imagem em qualquer editor, veja a posição do botão/área desejada e converta para % (posição ÷ dimensão total × 100).
-- Pode adicionar quantos hotspots quiser além de `localizacao` e `confirmacao` — o sistema lê todos automaticamente.
+1. **Apresentação** — a arte original do convite (`assets/convite.jpg`), com
+   nome, data e hora sobrepostos via CSS, personagem com respiração sutil,
+   borboletas, sapinho interativo e brilho na coroa.
+2. **Detalhes & Experiência** — contador regressivo, local, traje, botões de
+   mapa e Google Agenda.
+3. **Confirmação & Presentes** — botão de RSVP via WhatsApp e modal de PIX
+   com botão de copiar.
 
-### 3. (Opcional) Trocar a personagem animada
-
-Se a nova arte também tiver uma personagem/elemento central que valha a pena animar:
-
-1. Recorte esse elemento em um editor (fundo transparente, PNG) e salve como `assets/personagem.png`.
-2. Ajuste `characterLayer` em `script.js` com a posição em % do recorte dentro da imagem original (mesma lógica dos hotspots: `x`, `y`, `width`, `height`).
-
-Se a nova arte não tiver personagem para animar, basta apagar a tag `<img id="character-layer">` do HTML (ou deixar como está — sem o arquivo `personagem.png`, o navegador só mostra um pequeno espaço vazio invisível, sem quebrar nada).
-
-Nada mais no código precisa ser tocado para reaproveitar o convite em outro cliente/evento.
+Navegação: pelos botões do rodapé, pelos pontinhos de progresso, ou por swipe
+(arrastar o dedo) entre as etapas.
 
 ## Publicar no GitHub Pages
 
-1. Suba estes arquivos para um repositório.
-2. Em *Settings → Pages*, selecione a branch `main` e a pasta raiz.
-3. O link gerado já funciona — a tela inicial aparece primeiro, e o convite só carrega após o clique em "Entrar no Convite".
-
-## Notas técnicas
-
-- A música só é iniciada após interação do usuário (clique), respeitando as políticas de autoplay dos navegadores.
-- Os hotspots são recalculados automaticamente em resize/rotação de tela, sempre alinhados ao retângulo real da imagem (mesmo com letterboxing).
-- Animações respeitam `prefers-reduced-motion`.
-- Testado para funcionar em Android, iPhone, tablet e desktop.
+Suba a pasta inteira (mantendo os nomes de arquivo) para o repositório e
+ative o GitHub Pages apontando para a raiz — igual ao projeto anterior.

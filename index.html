@@ -3,38 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-<title>XV Anos — Convite Digital | Justech</title>
+<title>XV Anos de Sophia Micaelle — Convite Digital | Justech</title>
 <meta name="description" content="Convite digital premium — Justech Convites" />
+<meta name="theme-color" content="#12101c" />
 
-<!-- Tipografia: serif de exibição elegante + sans utilitária discreta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Alex+Brush&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css?v=20260720b" />
 </head>
 <body>
 
 <!-- ======================================================
-     TELA INICIAL — abertura cinematográfica do envelope
-     A arte do envelope é uma imagem pronta (assets/envelope.jpg)
-     e NUNCA é recriada em HTML/CSS — apenas posicionada, iluminada
-     e animada como um todo (fade, escala, brilho passando por cima).
+     TELA DE ENTRADA — abertura cinematográfica do envelope
      ====================================================== -->
 <section id="splash-screen" class="splash">
 
-  <!-- Camada de partículas douradas (canvas, desenhado via JS) -->
   <canvas id="particles-canvas" aria-hidden="true"></canvas>
-
-  <!-- Glow ambiente e vinheta, complementando o feixe de luz já presente na imagem -->
   <div class="glow-radial" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
 
   <div class="envelope-scene" id="envelope-scene">
-
     <div class="envelope-visual" id="envelope-visual">
       <img class="envelope-img" src="assets/envelope.jpg" alt="Envelope de convite de luxo, verde-oliva com laço dourado e selo de cera" draggable="false" />
-      <!-- Brilho que desliza sobre o laço dourado periodicamente -->
       <span class="ribbon-glint" aria-hidden="true"></span>
     </div>
 
@@ -42,12 +34,8 @@
       <span class="enter-btn-glow" aria-hidden="true"></span>
       <span class="enter-btn-label">Abrir Convite</span>
     </button>
-
   </div>
 
-  <!-- Carta branca elegante que sobe do envelope e se transforma no convite.
-       Fica fora de .envelope-scene, em position:fixed, para poder se
-       expandir suavemente até preencher a tela inteira. -->
   <div class="letter-sparkles" id="letter-sparkles" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span>
   </div>
@@ -79,38 +67,155 @@
 </section>
 
 <!-- ======================================================
-     TELA PRINCIPAL — O CONVITE (imagem única + hotspots)
+     APP — SITE DO EVENTO (navegação por etapas / wizard)
      ====================================================== -->
-<section id="invite-screen" class="invite" hidden>
+<div id="app" class="app" hidden>
 
-  <!-- Partículas ambiente contínuas (mais discretas que na splash) -->
-  <canvas id="particles-canvas-invite" aria-hidden="true"></canvas>
-
-  <div class="invite-frame">
-    <div class="invite-backdrop" id="invite-backdrop" aria-hidden="true"></div>
-    <div class="invite-image-wrap" id="invite-image-wrap">
-      <img id="invite-image" class="invite-image" src="assets/convite.jpg" alt="Convite de XV Anos" draggable="false" />
-    </div>
-
-    <!-- Recorte animado da personagem (assets/personagem.png), posicionado
-         via JS exatamente sobre a mesma figura na arte do convite (mesma
-         lógica de alinhamento usada nos hotspots). Ganha um leve balanço
-         contínuo (respiração + oscilação), sensação de movimento sutil
-         sem jamais se descolar da arte original. -->
-    <div id="character-frame" class="character-frame" aria-hidden="true">
-      <img id="character-layer" class="character-layer" src="assets/personagem.png" alt="" draggable="false" />
-    </div>
-
-    <!-- Faixa de luz que percorre o convite periodicamente, reforçando a
-         sensação de "convite vivo" -->
-    <div class="invite-shimmer" aria-hidden="true"></div>
-
-    <!-- Hotspots (áreas clicáveis invisíveis) são injetados aqui via JS,
-         a partir do objeto config.hotspots em script.js -->
-    <div id="hotspots-layer" class="hotspots-layer" aria-label="Ações do convite"></div>
+  <!-- Fundo ambiente contínuo: partículas douradas + borboletas lentas -->
+  <canvas id="particles-canvas-app" class="app-particles" aria-hidden="true"></canvas>
+  <div class="ambient-butterflies" aria-hidden="true">
+    <div class="a-butterfly ab1"><img src="assets/butterfly.png" alt="" draggable="false" /></div>
+    <div class="a-butterfly ab2"><img src="assets/butterfly2.png" alt="" draggable="false" /></div>
   </div>
 
-  <!-- Controle de música flutuante -->
+  <main class="wizard" id="wizard">
+    <div class="wizard-track" id="wizard-track">
+
+      <!-- ============ ETAPA 1 — APRESENTAÇÃO ============ -->
+      <section class="step" data-step="0" aria-label="Etapa 1 de 3: Apresentação">
+        <div class="step-inner">
+          <div class="hero-frame" id="hero-frame">
+            <img id="hero-image" class="hero-image" src="assets/convite.jpg" alt="Ilustração de XV Anos: vestido verde-oliva, borboletas e castelo" draggable="false" />
+            <div class="hero-fade-bottom" aria-hidden="true"></div>
+
+            <div id="hero-crown-glow" class="hero-crown-glow" aria-hidden="true"></div>
+
+            <div class="hero-character-frame" id="hero-character-frame" aria-hidden="true">
+              <img id="hero-character" class="hero-character" src="assets/personagem.png" alt="" draggable="false" />
+            </div>
+
+            <div class="hero-butterflies" aria-hidden="true">
+              <div class="h-butterfly hb1"><img src="assets/butterfly.png" alt="" draggable="false" /></div>
+              <div class="h-butterfly hb2"><img src="assets/butterfly2.png" alt="" draggable="false" /></div>
+            </div>
+
+            <div class="hero-frog" id="hero-frog" aria-hidden="true">
+              <div class="hero-frog-tap" id="hero-frog-tap">
+                <img src="assets/frog.png" alt="" draggable="false" />
+              </div>
+            </div>
+
+            <div class="hero-shimmer" aria-hidden="true"></div>
+
+            <div class="hero-text-layer" aria-hidden="true">
+              <div class="htxt htxt-name" id="htxt-name"></div>
+              <div class="htxt htxt-xvanos" id="htxt-xvanos"></div>
+              <div class="htxt htxt-subtitle" id="htxt-subtitle"></div>
+              <div class="htxt htxt-weekday" id="htxt-weekday"></div>
+              <div class="htxt htxt-day" id="htxt-day"></div>
+              <div class="htxt htxt-month" id="htxt-month"></div>
+              <div class="htxt htxt-year" id="htxt-year"></div>
+              <div class="htxt htxt-time" id="htxt-time"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ETAPA 2 — DETALHES & EXPERIÊNCIA ============ -->
+      <section class="step" data-step="1" aria-label="Etapa 2 de 3: Detalhes do evento">
+        <div class="step-inner">
+          <div class="details-card">
+            <p class="step-eyebrow">Detalhes da Celebração</p>
+            <h2 class="step-title">Guarde a data</h2>
+
+            <div class="countdown" id="countdown" aria-live="polite">
+              <div class="countdown-unit"><span class="cd-value" id="cd-days">00</span><small>dias</small></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-unit"><span class="cd-value" id="cd-hours">00</span><small>horas</small></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-unit"><span class="cd-value" id="cd-min">00</span><small>min</small></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-unit"><span class="cd-value" id="cd-sec">00</span><small>seg</small></div>
+            </div>
+
+            <div class="info-list">
+              <div class="info-row">
+                <span class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+                </span>
+                <span class="info-text">
+                  <strong id="venue-name"></strong>
+                  <small id="venue-address"></small>
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2.4"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+                </span>
+                <span class="info-text">
+                  <strong id="event-date-label"></strong>
+                  <small id="event-time-label"></small>
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M8 4l4 2 4-2M6 8l-2 12h16L18 8M6 8l6-4 6 4"/></svg>
+                </span>
+                <span class="info-text">
+                  <strong>Traje</strong>
+                  <small id="dresscode-label"></small>
+                </span>
+              </div>
+            </div>
+
+            <div class="details-actions">
+              <button id="btn-maps" class="action-btn action-btn-outline" type="button">
+                <span>📍</span> Local da Festa
+              </button>
+              <button id="btn-calendar" class="action-btn action-btn-outline" type="button">
+                <span>🗓️</span> Salvar no Google Agenda
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ETAPA 3 — CONFIRMAÇÃO & PRESENTES ============ -->
+      <section class="step" data-step="2" aria-label="Etapa 3 de 3: Confirmação e presentes">
+        <div class="step-inner">
+          <div class="confirm-card">
+            <p class="step-eyebrow">Sua Presença é Muito Importante</p>
+            <h2 class="step-title">Vem comemorar comigo?</h2>
+            <p class="confirm-copy">Confirme sua presença para que eu possa te esperar com todo carinho nesta noite tão especial.</p>
+
+            <button id="btn-rsvp" class="action-btn action-btn-solid" type="button">
+              <span>✅</span> Confirmar Presença via WhatsApp
+            </button>
+
+            <button id="btn-gift" class="action-btn action-btn-outline" type="button">
+              <span>🎁</span> Lista de Presentes / PIX
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Rodapé fixo: indicador de progresso + navegação -->
+  <footer class="wizard-footer" id="wizard-footer">
+    <div class="progress-dots" id="progress-dots" role="tablist" aria-label="Progresso do convite">
+      <span class="dot" data-i="0" aria-label="Etapa 1"></span>
+      <span class="dot" data-i="1" aria-label="Etapa 2"></span>
+      <span class="dot" data-i="2" aria-label="Etapa 3"></span>
+    </div>
+    <div class="footer-nav">
+      <button id="nav-back" class="nav-btn nav-btn-ghost" type="button">⬅ Voltar</button>
+      <button id="nav-next" class="nav-btn nav-btn-solid" type="button">Avançar Detalhes +</button>
+    </div>
+  </footer>
+
+  <!-- Controle de música flutuante (persiste em todas as etapas) -->
   <div id="music-control" class="music-control" role="group" aria-label="Controle de música">
     <button id="music-toggle" class="music-btn" type="button" aria-label="Tocar música">
       <span id="music-icon">▶</span>
@@ -118,10 +223,35 @@
     <input id="music-volume" class="music-volume" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volume da música" />
   </div>
 
-</section>
+  <!-- Assinatura do estúdio -->
+  <button type="button" id="studio-signature" class="studio-signature">
+    Desenvolvido por <span>LéoTech</span>
+  </button>
+
+  <!-- Modal de Presentes / PIX -->
+  <div id="gift-modal" class="modal-overlay" hidden>
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="modal-close" class="modal-close" type="button" aria-label="Fechar">✕</button>
+      <p class="modal-eyebrow">Com muito carinho</p>
+      <h3 id="modal-title" class="modal-title">Presente via PIX</h3>
+      <p class="modal-copy">Se desejar contribuir com meu presente, aqui está a chave PIX:</p>
+      <div class="pix-box">
+        <div class="pix-info">
+          <small id="pix-type"></small>
+          <span id="pix-key"></span>
+        </div>
+        <button id="pix-copy" class="pix-copy-btn" type="button">Copiar</button>
+      </div>
+      <p class="pix-owner">Titular: <span id="pix-owner"></span></p>
+      <span id="pix-toast" class="pix-toast">Chave copiada!</span>
+    </div>
+  </div>
+
+</div>
 
 <audio id="bg-audio" src="assets/music.mp3" preload="none" loop></audio>
 
-<script src="script.js"></script>
+<script src="script.js?v=20260720b"></script>
 </body>
 </html>
